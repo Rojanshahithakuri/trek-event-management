@@ -89,18 +89,24 @@ function countFinishedEvents($events){
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css"/>
     <link rel="stylesheet" href="dashboard.css">
     <!-- Add your CSS and JavaScript links here -->
-
+<style>
+    .sidebar .dash{
+        background-color:grey;
+        border-radius:20px;
+    }
+</style>
 </head>
 <body>
     <!-- Your HTML content here -->
     <div class="sidebar">
         <h4><center><b>Menu</b></center></h4>
-        <a href="dashboard.php">Dashboard</a>
-        <a href="calendar.php">Calendar</a>
+        <a href="dashboard.php" class="dash">Dashboard</a>
+        <a href="calendar.php" >Calendar</a>
         <a href="events.php">Total Events</a>
         <a href="ongoing.php">Ongoing Events</a>
         <a href="upcoming.php">Upcoming Events</a>
         <a href="finished.php">Finished Events</a>
+        <a href="history.php">History</a>
         <button class="addevent-button" onclick="openModal()">Add Event</button>
     </div>
 

@@ -17,7 +17,67 @@ if(isset($_POST['submit'])){
     mysqli_query($conn,$sql);
     echo('event added successfully!');
 }
+//fetch events from database;
+$host = 'localhost';
+$user = 'root';
+$pass = '';
+$dbname = 'summer';
 
+$events = array(); // Define an empty array to hold events
+$conn = mysqli_connect($host, $user, $pass, $dbname);
+$sql = "SELECT * FROM calendar";
+$result = mysqli_query($conn, $sql);
+
+if (mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $events[] = array(
+            'title' => $row['destination'],
+            'start' => $row['start'],
+            'end' => $row['end']
+        );
+    }
+}
+mysqli_close($conn);
+
+// Function to count ongoing events
+function countOngoingEvents($events) {
+    $ongoingEvents = 0;
+    $currentDate = date('Y-m-d H:i:s');
+
+    foreach ($events as $event) {
+        if ($event['start'] <= $currentDate && $event['end'] >= $currentDate) {
+            $ongoingEvents++;
+        }
+    }
+
+    return $ongoingEvents;
+}
+
+// Function to count upcoming events
+function countUpcomingEvents($events) {
+    $upcomingEvents = 0;
+    $currentDate = date('Y-m-d H:i:s');
+
+    foreach ($events as $event) {
+        if ($event['start'] > $currentDate) {
+            $upcomingEvents++;
+        }
+    }
+
+    return $upcomingEvents;
+}
+
+function countFinishedEvents($events){
+    $finishedEvents=0;
+    $currentDate= date('Y-m-d H:i:s');
+
+    foreach($events as $event){
+        if ($event['end']<$currentDate){
+            $finishedEvents++;
+        }
+    }
+    return $finishedEvents;
+}
 
 ?>
 
@@ -27,25 +87,26 @@ if(isset($_POST['submit'])){
     <title>Hard Rock Treks & Expedition</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css"/>
-    <link rel="stylesheet" href="events.css">
+    <link rel="stylesheet" href="history.css">
     <!-- Add your CSS and JavaScript links here -->
-    <style>
-    .sidebar .events{
-    background-color:grey;
-    border-radius:20px;
-}
+<style>
+    .sidebar .dash{
+        background-color:grey;
+        border-radius:20px;
+    }
 </style>
 </head>
 <body>
     <!-- Your HTML content here -->
     <div class="sidebar">
         <h4><center><b>Menu</b></center></h4>
-        <a href="dashboard.php">Dashboard</a>
-        <a href="calendar.php">Calendar</a>
-        <a href="events.php" class="events">Total Events</a>
+        <a href="dashboard.php" >Dashboard</a>
+        <a href="calendar.php" >Calendar</a>
+        <a href="events.php">Total Events</a>
         <a href="ongoing.php">Ongoing Events</a>
         <a href="upcoming.php">Upcoming Events</a>
         <a href="finished.php">Finished Events</a>
+        <a href="history.php" class="dash">History</a>
         <button class="addevent-button" onclick="openModal()">Add Event</button>
     </div>
 
@@ -54,66 +115,22 @@ if(isset($_POST['submit'])){
         <h2 class="hello">Hard Rock Treks And Expedition</h2>
         <div id="calendar"></div>
         <div class="container">
-             <table class="tables">
-                <thead>
-               
-                    <th class="ID">S.N</th>
-                    <th class="destination">Destination</th>
-                    <th class="sdate">Start Date</th>
-                    <th class="edate">End Date</th>
-                    <th class="guests">Total Guests</th>
-                    <th class="guests">Guides</th>
-                    <th class="guests">Porter</th>
-                </thead>
-                <tbody>
-                   <?php
-                   $hostname= "localhost";
-                   $dbUser="root";
-                   $dbPass="";
-                   $dbName="summer";
-                   $conn=mysqli_connect($hostname,$dbUser,$dbPass,$dbName);
-                   if(!$conn){
-                    die("connection unsucess");
-                   }
-                   $n=1;
-                   $sql="SELECT * FROM calendar";
-                   $result=mysqli_query($conn,$sql);
-                   while($row= mysqli_fetch_array($result)){
-                    $ID=$n++;
-                    $destination=$row["destination"];
-                    $guests=$row["guests"];
-                    $guide=$row["guide"];
-                    $porter=$row["porter"];
-                    $start=$row["start"];
-                    $end=$row["end"];
-                    echo "<tr>
-                    <td>$ID</td>
-                    <td>$destination</td>
-                    <td>$start</td>
-                    <td>$end</td>
-                    <td>$guests</td>
-                    <td>$guide</td>
-                    <td>$porter</td>
-                    
-                    </tr>";
-                   }
-                
-                   ?>
-             
-                </tbody>
-                  
-                  
-                
-             </table> 
-    </div
-              
+              <div class="t-events">Total Events: <?php echo count($events); ?></div>
+    <div class="o-events">Ongoing Events: <?php echo countOngoingEvents($events); ?></div>
+    <div class="u-events">Upcoming Events: <?php echo countUpcomingEvents($events); ?></div>
+    <div class="F-events">Finished Events: <?php echo countFinishedEvents($events)?></div>
+    </div>
+ 
+        </div>
       
     <!-- Modal for adding event -->
     <div id="myModal" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
-            <h3>Event no: <?php echo $n; ?></h3>
+            <h3>Event no: <?php
+            echo count($events)+1;
+            ?></h3>
             <form id="eventForm" action="#" method="POST">
     <label for="title">Destination:</label><br>
     <input type="text" id="destination" name="destination"><br>

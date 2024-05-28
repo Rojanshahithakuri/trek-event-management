@@ -1,151 +1,79 @@
 <?php
-if(isset($_POST['submit'])){
-    // Code to add a new event
-    // Establish database connection
-    $host = 'localhost';
-    $user = 'root';
-    $pass = '';
-    $dbname = 'summer';
-    $conn = mysqli_connect($host, $user, $pass, $dbname);
-    // Check connection
-    if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
-
-    $destination=$_POST["destination"];
-    $guests=$_POST["guests"];
-    $guide=$_POST["guide"];
-    $porter=$_POST["porter"];
-    $start=$_POST["start"];
-    $end=$_POST["end"];
-
-    $sql="INSERT INTO calendar(destination,guests,guide,porter,start,end)values('$destination','$guests','$guide','$porter','$start','$end')";
-    mysqli_query($conn,$sql);
-    echo('Event added successfully!');
-    mysqli_close($conn);
-}
-
-//fetch events from database;
 $host = 'localhost';
 $user = 'root';
 $pass = '';
 $dbname = 'summer';
 
-$events = array(); // Define an empty array to hold events
+// Establish database connection
 $conn = mysqli_connect($host, $user, $pass, $dbname);
-$sql = "SELECT * FROM calendar";
+
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+$upcomingEvents = array();
+$currentDate = date('Y-m-d H:i:s');
+$sql = "SELECT * FROM calendar WHERE start <='$currentDate' and end>='$currentDate'";
 $result = mysqli_query($conn, $sql);
 
-if (mysqli_num_rows($result) > 0) {
+if ($result && mysqli_num_rows($result) > 0) {
+    $counter = 1; // Initialize a counter variable
     while ($row = mysqli_fetch_assoc($result)) {
-        $events[] = array(
-            'id' => $row['ID'],
-            'title' => $row['destination'],
-            'start' => $row['start'],
-            'end' => $row['end']
-        );
+        $row['serial'] = $counter; // Assign serial number to the event
+        $upcomingEvents[] = $row;
+        $counter++; // Increment the counter
     }
 }
+
+// Close the database connection
 mysqli_close($conn);
 ?>
 <!DOCTYPE html>
 <html>
 <head>
+    <title>Upcoming Events</title>
     <title>Hard Rock Treks & Expedition</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css"/>
-    <link rel="stylesheet" href="calendar.css">
+    <link rel="stylesheet" href="ongoing.css">
 </head>
 <body>
-    <!-- Sidebar -->
     <div class="sidebar">
         <h4><center><b>Menu</b></center></h4>
         <a href="dashboard.php">Dashboard</a>
         <a href="calendar.php">Calendar</a>
         <a href="events.php">Total Events</a>
-        <a href="ongoing.php">Ongoing Events</a>
+        <a href="">Ongoing Events</a>
         <a href="upcoming.php">Upcoming Events</a>
         <a href="finished.php">Finished Events</a>
         <button class="addevent-button" onclick="openModal()">Add Event</button>
     </div>
 
-    <!-- Main content -->
+    <h2>Ongoing Events</h2>
     <div class="content">
-        <h2 class="hello">Hard Rock Treks And Expedition</h2>
-        <div id="calendar"></div>
+        <table>
+            <tr>
+                <th>S.N</th>
+                <th>Destination</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Total Guests</th>
+                <th>Guides</th>
+                <th>Porter</th>
+            </tr>
+            <?php foreach ($upcomingEvents as $event): ?>
+                <tr>
+                    <td><?php echo $event['serial']; ?></td>
+                    <td><?php echo $event['destination']; ?></td>
+                    <td><?php echo $event['start']; ?></td>
+                    <td><?php echo $event['end']; ?></td>
+                    <td><?php echo $event['guests']; ?></td>
+                    <td><?php echo $event['guide']; ?></td>
+                    <td><?php echo $event['porter']; ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
     </div>
-
-    <!-- Modal for adding event -->
-    <div id="myModal" class="modal">
-        <!-- Modal content -->
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h3>Event Details</h3>
-            <table id="eventDetails" class="table">
-                <tr>
-                    <td><strong>Destination:</strong></td>
-                    <td id="destination"></td>
-                </tr>
-                <tr>
-                    <td><strong>Start Date:</strong></td>
-                    <td id="start"></td>
-                </tr>
-                <tr>
-                    <td><strong>End Date:</strong></td>
-                    <td id="end"></td>
-                </tr>
-            </table>
-        </div>
-    </div>
-
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
-    <script>
-        // Open the modal when the Add Event button is clicked
-        function openModal() {
-            document.getElementById("myModal").style.display = "block";
-        }
-
-        // Close the modal when the close button or outside the modal is clicked
-        function closeModal() {
-            document.getElementById("myModal").style.display = "none";
-        }
-
-        $(document).ready(function(){
-            $('#calendar').fullCalendar({
-                selectable:true,
-                selectHelper:true,
-                events: <?php echo json_encode($events); ?>, // Fetch events from PHP array
-                header:{
-                    left:'month,agendaWeek,agendaDay,list',
-                    center:'title',
-                    right:'prev,today,next',
-                },
-                buttonText:{
-                    today:'Today',
-                    month:'Month',
-                    week:'Week',
-                    list:'List',
-                    day:'Day'
-                },
-                dayRender: function(date,cell)
-                {
-                    var today= $.fullCalendar.moment();
-                    if(date.get('date')==today.get('date'))
-                    {
-                        cell.css("background","lightgrey");
-                    }
-                },
-                eventClick: function(event) {
-                    $('#destination').text(event.title);
-                    $('#start').text(event.start.format('YYYY-MM-DD HH:mm'));
-                    $('#end').text(event.end.format('YYYY-MM-DD HH:mm'));
-                    openModal();
-                }
-            });
-        }); 
-    </script>
 </body>
 </html>

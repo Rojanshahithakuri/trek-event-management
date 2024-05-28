@@ -18,8 +18,11 @@ $sql = "SELECT * FROM calendar WHERE end < '$currentDate'";
 $result = mysqli_query($conn, $sql);
 
 if ($result && mysqli_num_rows($result) > 0) {
+    $counter=1;
     while ($row = mysqli_fetch_assoc($result)) {
+        $row['serial']=$counter;
         $upcomingEvents[] = $row;
+        $counter++;
     }
 }
 
@@ -35,6 +38,12 @@ mysqli_close($conn);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css"/>
     <link rel="stylesheet" href="finished.css">
 </head>
+<style>
+    .sidebar .fin{
+    background-color:grey;
+    border-radius:20px;
+}
+</style>
 <body>
 <div class="sidebar">
         <h4><center><b>Menu</b></center></h4>
@@ -43,7 +52,7 @@ mysqli_close($conn);
         <a href="events.php">Total Events</a>
         <a href="ongoing.php">Ongoing Events</a>
         <a href="upcoming.php">Upcoming Events</a>
-        <a href="#">Finished Events</a>
+        <a href="#" class="fin">Finished Events</a>
         <button class="addevent-button" onclick="openModal()">Add Event</button>
     </div>
 
@@ -51,6 +60,7 @@ mysqli_close($conn);
 <div class="content">
 <table>
     <tr>
+        <th>S.N</th>
         <th>Destination</th>
         <th>Start Date</th>
         <th>End Date</th>
@@ -60,6 +70,7 @@ mysqli_close($conn);
     </tr>
     <?php foreach ($upcomingEvents as $event): ?>
         <tr>
+        <td><?php echo $event['serial']; ?></td>
             <td><?php echo $event['destination']; ?></td>
             <td><?php echo $event['start']; ?></td>
             <td><?php echo $event['end']; ?></td>
