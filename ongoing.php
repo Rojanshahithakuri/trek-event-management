@@ -39,25 +39,23 @@ mysqli_close($conn);
     <link rel="stylesheet" href="ongoing.css">
 </head>
 <style>
-    .sidebar .ongo{
-    background-color:grey;
-    border-radius:20px;
-}
+   
 </style>
 <body>
     <div class="sidebar">
-        <h4><center><b>Menu</b></center></h4>
+    <img src="hrt.png" alt="HRT Logo" class="logo">
         <a href="dashboard.php">Dashboard</a>
         <a href="calendar.php">Calendar</a>
         <a href="events.php">Total Events</a>
         <a href="" class="ongo">Ongoing Events</a>
         <a href="upcoming.php">Upcoming Events</a>
         <a href="finished.php">Finished Events</a>
-        <button class="addevent-button" onclick="openModal()">Add Event</button>
+       
     </div>
 
-    <h2>Ongoing Events</h2>
+   
     <div class="content">
+    <h2>Ongoing Events</h2>
         <table>
             <tr>
                 <th>S.N</th>

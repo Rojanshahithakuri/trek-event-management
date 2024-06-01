@@ -39,25 +39,23 @@ mysqli_close($conn);
     <link rel="stylesheet" href="upcoming.css">
 </head>
 <style>
-    .sidebar .up{
-    background-color:grey;
-    border-radius:20px;
-}
+  
 </style>
 <body>
 <div class="sidebar">
-        <h4><center><b>Menu</b></center></h4>
+<img src="hrt.png" alt="HRT Logo" class="logo">
         <a href="dashboard.php">Dashboard</a>
         <a href="calendar.php">Calendar</a>
         <a href="events.php">Total Events</a>
         <a href="ongoing.php">Ongoing Events</a>
         <a href="upcoming.php" class="up">Upcoming Events</a>
         <a href="finished.php">Finished Events</a>
-        <button class="addevent-button" onclick="openModal()">Add Event</button>
+       
     </div>
 
-<h2>Upcoming Events</h2>
+
 <div class="content">
+<h2>Upcoming Events</h2>
 <table>
     <tr>
         <th>S.N</th>
@@ -71,6 +69,7 @@ mysqli_close($conn);
     <?php foreach ($upcomingEvents as $event): ?>
         <tr>
             <td><?php echo $event['serial']; ?></td>
+            <td><?php echo $event['destination']; ?></td>
             <td><?php echo $event['start']; ?></td>
             <td><?php echo $event['end']; ?></td>
             <td><?php echo $event['guests']; ?></td>

@@ -1,4 +1,10 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
 if(isset($_POST['submit'])){
     $destination=$_POST["destination"];
     $guests=$_POST["guests"];
@@ -78,40 +84,71 @@ function countFinishedEvents($events){
     }
     return $finishedEvents;
 }
+$host = 'localhost';
+$user = 'root';
+$pass = '';
+$dbname = 'summer';
 
+// Establish database connection
+$conn = mysqli_connect($host, $user, $pass, $dbname);
+
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+$upcomingEvents = array();
+$currentDate = date('Y-m-d H:i:s');
+$sql = "SELECT * FROM calendar WHERE start > '$currentDate'";
+$result = mysqli_query($conn, $sql);
+
+if ($result && mysqli_num_rows($result) > 0) {
+    $counter= 1;
+    while ($row = mysqli_fetch_assoc($result)) {
+        $row['serial']=$counter;
+        $upcomingEvents[] = $row;
+        $counter++;
+    }
+}
+
+// Close the database connection
+mysqli_close($conn);
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
+
     <title>Hard Rock Treks & Expedition</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css"/>
     <link rel="stylesheet" href="dashboard.css">
     <!-- Add your CSS and JavaScript links here -->
 <style>
-    .sidebar .dash{
-        background-color:grey;
-        border-radius:20px;
-    }
+   
 </style>
 </head>
 <body>
+  
     <!-- Your HTML content here -->
     <div class="sidebar">
-        <h4><center><b>Menu</b></center></h4>
+    <img src="hrt.png" alt="HRT Logo" class="logo">
+        
         <a href="dashboard.php" class="dash">Dashboard</a>
         <a href="calendar.php" >Calendar</a>
         <a href="events.php">Total Events</a>
         <a href="ongoing.php">Ongoing Events</a>
         <a href="upcoming.php">Upcoming Events</a>
         <a href="finished.php">Finished Events</a>
-        <a href="history.php">History</a>
-        <button class="addevent-button" onclick="openModal()">Add Event</button>
+        <button class="end"> End Session</button>
+        
     </div>
 
     <!-- Main content -->
+   
     <div class="content">
+    
         <h2 class="hello">Hard Rock Treks And Expedition</h2>
         <div id="calendar"></div>
         <div class="container">
@@ -120,9 +157,32 @@ function countFinishedEvents($events){
     <div class="u-events">Upcoming Events: <?php echo countUpcomingEvents($events); ?></div>
     <div class="F-events">Finished Events: <?php echo countFinishedEvents($events)?></div>
     </div>
- 
+    <div class="content-table">
+<h2>Upcoming Events</h2>
+<table>
+    <tr>
+        <th>S.N</th>
+        <th>Destination</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Total Guests</th>
+        <th>Guides</th>
+        <th>Porter</th>
+    </tr>
+    <?php foreach ($upcomingEvents as $event): ?>
+        <tr>
+            <td><?php echo $event['serial']; ?></td>
+            <td><?php echo $event['destination']; ?></td>
+            <td><?php echo $event['start']; ?></td>
+            <td><?php echo $event['end']; ?></td>
+            <td><?php echo $event['guests']; ?></td>
+            <td><?php echo $event['guide']; ?></td>
+            <td><?php echo $event['porter']; ?></td>
+        </tr>
+    <?php endforeach; ?>
+</table>
         </div>
-      
+     
     <!-- Modal for adding event -->
     <div id="myModal" class="modal">
         <!-- Modal content -->

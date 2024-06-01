@@ -13,12 +13,10 @@ if(isset($_POST['submit'])){
     $dbname='summer';
 
     $conn=mysqli_connect($host,$user,$pass,$dbname);
-    $sql="INSERT INTO calendar(destination,guests,guide,porter,start,end)values('$destination','$guests','$guide','$porter','$start','$end')";
+    $sql="INSERT INTO calendar(destination,guests,guide,porter,start,end)VALUES('$destination','$guests','$guide','$porter','$start','$end')";
     mysqli_query($conn,$sql);
-    echo('event added successfully!');
+    echo('Event added successfully!');
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -30,40 +28,39 @@ if(isset($_POST['submit'])){
     <link rel="stylesheet" href="events.css">
     <!-- Add your CSS and JavaScript links here -->
     <style>
-    .sidebar .events{
-    background-color:grey;
-    border-radius:20px;
-}
-</style>
+    
+    </style>
 </head>
 <body>
     <!-- Your HTML content here -->
     <div class="sidebar">
-        <h4><center><b>Menu</b></center></h4>
+    <img src="hrt.png" alt="HRT Logo" class="logo">
         <a href="dashboard.php">Dashboard</a>
         <a href="calendar.php">Calendar</a>
         <a href="events.php" class="events">Total Events</a>
         <a href="ongoing.php">Ongoing Events</a>
         <a href="upcoming.php">Upcoming Events</a>
         <a href="finished.php">Finished Events</a>
-        <button class="addevent-button" onclick="openModal()">Add Event</button>
+        
     </div>
 
     <!-- Main content -->
     <div class="content">
-        <h2 class="hello">Hard Rock Treks And Expedition</h2>
+        <button class="print" id="print">Print</button>
+        <h2 class="hello">Total Events</h2>
         <div id="calendar"></div>
         <div class="container">
-             <table class="tables">
+            <table class="tables" id="table">
                 <thead>
-               
-                    <th class="ID">S.N</th>
-                    <th class="destination">Destination</th>
-                    <th class="sdate">Start Date</th>
-                    <th class="edate">End Date</th>
-                    <th class="guests">Total Guests</th>
-                    <th class="guests">Guides</th>
-                    <th class="guests">Porter</th>
+                    <tr>
+                        <th>S.N</th>
+                        <th>Destination</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Total Guests</th>
+                        <th>Guides</th>
+                        <th>Porter</th>
+                    </tr>
                 </thead>
                 <tbody>
                    <?php
@@ -73,41 +70,35 @@ if(isset($_POST['submit'])){
                    $dbName="summer";
                    $conn=mysqli_connect($hostname,$dbUser,$dbPass,$dbName);
                    if(!$conn){
-                    die("connection unsucess");
+                       die("Connection unsuccessful");
                    }
                    $n=1;
                    $sql="SELECT * FROM calendar";
                    $result=mysqli_query($conn,$sql);
                    while($row= mysqli_fetch_array($result)){
-                    $ID=$n++;
-                    $destination=$row["destination"];
-                    $guests=$row["guests"];
-                    $guide=$row["guide"];
-                    $porter=$row["porter"];
-                    $start=$row["start"];
-                    $end=$row["end"];
-                    echo "<tr>
-                    <td>$ID</td>
-                    <td>$destination</td>
-                    <td>$start</td>
-                    <td>$end</td>
-                    <td>$guests</td>
-                    <td>$guide</td>
-                    <td>$porter</td>
-                    
-                    </tr>";
+                       $ID=$n++;
+                       $destination=$row["destination"];
+                       $guests=$row["guests"];
+                       $guide=$row["guide"];
+                       $porter=$row["porter"];
+                       $start=$row["start"];
+                       $end=$row["end"];
+                       echo "<tr>
+                       <td>$ID</td>
+                       <td>$destination</td>
+                       <td>$start</td>
+                       <td>$end</td>
+                       <td>$guests</td>
+                       <td>$guide</td>
+                       <td>$porter</td>
+                       </tr>";
                    }
-                
                    ?>
-             
                 </tbody>
-                  
-                  
-                
-             </table> 
-    </div
-              
-      
+            </table>
+        </div>
+    </div>
+
     <!-- Modal for adding event -->
     <div id="myModal" class="modal">
         <!-- Modal content -->
@@ -115,35 +106,55 @@ if(isset($_POST['submit'])){
             <span class="close" onclick="closeModal()">&times;</span>
             <h3>Event no: <?php echo $n; ?></h3>
             <form id="eventForm" action="#" method="POST">
-    <label for="title">Destination:</label><br>
-    <input type="text" id="destination" name="destination"><br>
-    <label for="guests">Total Guests:</label><br>
-    <input type="number" name="guests"><br>
-    <div class="guide-porter">
-        <div class="guide">
-            <label for="guide">Guide:</label><br>
-            <input type="number" name="guide" class="small-input"><br>
-        </div>
-        <div class="porter">
-            <label for="porter">Porter:</label><br>
-            <input type="number" name="porter" class="small-input"><br>
+                <label for="title">Destination:</label><br>
+                <input type="text" id="destination" name="destination"><br>
+                <label for="guests">Total Guests:</label><br>
+                <input type="number" name="guests"><br>
+                <div class="guide-porter">
+                    <div class="guide">
+                        <label for="guide">Guide:</label><br>
+                        <input type="number" name="guide" class="small-input"><br>
+                    </div>
+                    <div class="porter">
+                        <label for="porter">Porter:</label><br>
+                        <input type="number" name="porter" class="small-input"><br>
+                    </div>
+                </div>
+                <label for="start">Start Date:</label><br>
+                <input type="datetime-local" id="start" name="start"><br>
+                <label for="end">End Date:</label><br>
+                <input type="datetime-local" id="end" name="end"><br><br>
+                <input type="submit" name="submit" value="Save">
+            </form>
         </div>
     </div>
-    <label for="start">Start Date:</label><br>
-    <input type="datetime-local" id="start" name="start"><br>
-    <label for="end">End Date:</label><br>
-    <input type="datetime-local" id="end" name="end"><br><br>
-    <input type="submit" name="submit" value="Save">
-</form>
 
-        </div>
-    </div>
     <script>
+        function printTable() {
+            var tableContent = document.getElementById('table').outerHTML;
+            var printWindow = window.open('', '', 'height=500, width=800');
+            printWindow.document.write('<html><head><title>Total Events</title>');
+            printWindow.document.write('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>');
+            printWindow.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css"/>');
+            printWindow.document.write('<style>');
+            printWindow.document.write('.sidebar .events { background-color: grey; border-radius: 20px; }');
+            printWindow.document.write('table.tables { width: 100%; border-collapse: collapse; margin: 20px 0; }');
+            printWindow.document.write('table.tables th, table.tables td { border: 1px solid #ddd; padding: 8px; }');
+            printWindow.document.write('table.tables th { background-color: #f2f2f2; text-align: left; }');
+            printWindow.document.write('</style>');
+            printWindow.document.write('</head><body>');
+            printWindow.document.write(tableContent);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        document.getElementById('print').addEventListener('click', printTable);
+
         function openModal() {
             document.getElementById("myModal").style.display = "block";
         }
 
-        // Close the modal when the close button or outside the modal is clicked
         function closeModal() {
             document.getElementById("myModal").style.display = "none";
         }

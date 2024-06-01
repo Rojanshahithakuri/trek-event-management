@@ -1,14 +1,26 @@
 .sidebar {
-    height: 100%;
+    margin-top: 10px;
+    height: 715px;
+    border-radius: 20px;
     width: 200px;
-    position: fixed;
+    margin-left: 5px;
+    position: absolute;
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: whitesmoke; /* Light gray background color */
+    background-color:rgb(244, 191, 166); /* Light gray background color */
     padding-top: 20px;
+    border-right: 2px solid #a79e9e; 
+    border-top: 2px solid #a79e9e; 
+    border-bottom: 2px solid #a79e9e;
+    border-left: 2px solid #a79e9e;
+    
 }
-
+.sidebar .events {
+    background-color: #f2f2f2;
+    border-radius: 20px;
+    
+}
 .sidebar a {
     padding: 10px 15px;
     text-decoration: none;
@@ -17,20 +29,29 @@
 }
 
 .sidebar a:hover {
-    background-color: #edf2f7; /* Lighter gray background color on hover */
+    background-color: #edf2f7;
+    border-radius: 20px; /* Lighter gray background color on hover */
 }
 
 /* Main content styles */
 .content {
-    margin-left: 220px; /* Adjusted margin-left to accommodate the sidebar */
+    border-radius: 20px;
+    margin-left: 212px;
+    margin-top: 10px;
+    margin-right: 5px;
+    margin-bottom: 10px;;
+     /* Adjusted margin-left to accommodate the sidebar */
     padding: 20px; /* Added padding */
     height: 100vh; /* Set the height to 100% of the viewport height */
-    overflow: auto; /* Add overflow to enable scrolling if necessary */
+    overflow: auto;
+     /* Add overflow to enable scrolling if necessary */
+    background-color:rgb(244, 191, 166);
 }
 
 /* Center align the title */
 h2 {
     text-align: center;
+    font-size: 40px;
 }
 
 a,h4 {
@@ -39,8 +60,8 @@ a,h4 {
 }
 
 .hello {
-    font-size: 40px;
-    color: rgb(6, 6, 6);
+    font-size: 30px;
+    color:#0a0212;
     text-align: center;
 }
 
@@ -153,7 +174,7 @@ width:200px;
 .destination{
 width: 400px;
 }
-table {
+    table {
         border-collapse: collapse;
         width: 100%;
     }
@@ -167,3 +188,31 @@ table {
     th {
         background-color: #f2f2f2;
     }
+
+    .sidebar .ongo{
+        background-color:grey;
+        border-radius:20px;
+    }
+
+    .print {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .print:hover {
+        background-color: #45a049;
+    }
+.logo{
+    margin-top: 0px;
+    height: 50px;
+    margin-left: 60px;
+}
+body{
+    background-color: #9c9999;
+}

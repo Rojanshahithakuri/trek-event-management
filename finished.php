@@ -39,25 +39,23 @@ mysqli_close($conn);
     <link rel="stylesheet" href="finished.css">
 </head>
 <style>
-    .sidebar .fin{
-    background-color:grey;
-    border-radius:20px;
-}
+  
 </style>
 <body>
 <div class="sidebar">
-        <h4><center><b>Menu</b></center></h4>
+<img src="hrt.png" alt="HRT Logo" class="logo">
         <a href="dashboard.php">Dashboard</a>
         <a href="calendar.php">Calendar</a>
         <a href="events.php">Total Events</a>
         <a href="ongoing.php">Ongoing Events</a>
         <a href="upcoming.php">Upcoming Events</a>
         <a href="#" class="fin">Finished Events</a>
-        <button class="addevent-button" onclick="openModal()">Add Event</button>
+       
     </div>
 
-<h2>Finished Events</h2>
+
 <div class="content">
+<h2>Finished Events</h2>
 <table>
     <tr>
         <th>S.N</th>

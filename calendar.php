@@ -20,8 +20,12 @@ if(isset($_POST['submit'])){
     $end=$_POST["end"];
 
     $sql="INSERT INTO calendar(destination,guests,guide,porter,start,end)values('$destination','$guests','$guide','$porter','$start','$end')";
-    mysqli_query($conn,$sql);
-    echo('Event added successfully!');
+    if (mysqli_query($conn, $sql)) {
+        echo '<script>alert("Event added successfully!"); window.location.href="calendar.php";</script>';
+    } else {
+        echo "Error adding record: " . mysqli_error($conn);
+    }
+
     mysqli_close($conn);
 }
 
@@ -77,31 +81,25 @@ color:black;
 background-color: red !important;
 color:white;
 }
-.sidebar .cal{
-    background-color:grey;
-    border-radius:20px;
-}
-.sidebar{
-    background-color:white;
-}
+
+
 </style>
 
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
-        <h4><center><b>Menu</b></center></h4>
+    <img src="hrt.png" alt="HRT Logo" class="logo">
         <a href="dashboard.php">Dashboard</a>
         <a href="calendar.php" class="cal">Calendar</a>
         <a href="events.php">Total Events</a>
         <a href="ongoing.php">Ongoing Events</a>
         <a href="upcoming.php">Upcoming Events</a>
         <a href="finished.php">Finished Events</a>
-        <button class="addevent-button" onclick="openModal()">Add Event</button>
     </div>
 
     <!-- Main content -->
     <div class="content">
-        <h2 class="hello">Hard Rock Treks And Expedition</h2>
+    <button class="addevent-button" onclick="openModal()">Add Event</button>
         <div id="calendar"></div>
     </div>
 
@@ -249,7 +247,7 @@ color:white;
                 },
                 dayRender: function(date, cell) {
                     var today = $.fullCalendar.moment();
-                    if(date.get('date') == today.get('date')) {
+                    if (date.isSame(today, 'day')) {
                         cell.css("background", "lightgrey");
                     }
                 },

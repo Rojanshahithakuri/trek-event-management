@@ -1,15 +1,25 @@
-   /* Sidebar styles */
-   .sidebar {
-    height: 100%;
+.sidebar {
+    margin-top: 10px;
+    height: 715px;
+    border-radius: 20px;
     width: 200px;
-    position: fixed;
+    margin-left: 5px;
+    position: absolute;
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #fafbfb; /* Light gray background color */
+    background-color:rgb(201, 105, 123); /* Light gray background color */
     padding-top: 20px;
+    border-right: 2px solid #a79e9e; 
+    border-top: 2px solid #a79e9e; 
+    border-bottom: 2px solid #a79e9e;
+    border-left: 2px solid #a79e9e;
+    
 }
-
+.sidebar .up{
+    background-color:#895f61;
+    border-radius:20px;
+}
 .sidebar a {
     padding: 10px 15px;
     text-decoration: none;
@@ -18,15 +28,22 @@
 }
 
 .sidebar a:hover {
-    background-color: #edf2f7; /* Lighter gray background color on hover */
+    background-color: #edf2f7;
+    border-radius: 20px; /* Lighter gray background color on hover */
 }
 
-/* Main content styles */
 .content {
-    margin-left: 220px; /* Adjusted margin-left to accommodate the sidebar */
+    border-radius: 20px;
+    margin-left: 212px;
+    margin-top: 10px;
+    margin-right: 5px;
+    margin-bottom: 10px;;
+     /* Adjusted margin-left to accommodate the sidebar */
     padding: 20px; /* Added padding */
     height: 100vh; /* Set the height to 100% of the viewport height */
-    overflow: auto; /* Add overflow to enable scrolling if necessary */
+    overflow: auto;
+     /* Add overflow to enable scrolling if necessary */
+    background-color:rgb(201, 105, 123); 
 }
 
 /* Center align the title */
@@ -166,7 +183,20 @@ width: 400px;
         text-align: left;
         padding: 8px;
     }
+    tr{
+        font-size: 16px;
+    }
 
     th {
-        background-color: #f2f2f2;
+        background-color: #895f61;
+        font-size: 20px;
     }
+    .logo{
+        margin-top: 0px;
+        height: 50px;
+        margin-left: 60px;
+    }
+    body{
+        background-color: #9c9999;
+    }
+    
