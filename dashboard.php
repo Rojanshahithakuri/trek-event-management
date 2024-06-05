@@ -99,7 +99,7 @@ if (!$conn) {
 
 $upcomingEvents = array();
 $currentDate = date('Y-m-d H:i:s');
-$sql = "SELECT * FROM calendar WHERE start > '$currentDate'";
+$sql = "SELECT * FROM calendar WHERE start > '$currentDate' ORDER BY START ASC";
 $result = mysqli_query($conn, $sql);
 
 if ($result && mysqli_num_rows($result) > 0) {
