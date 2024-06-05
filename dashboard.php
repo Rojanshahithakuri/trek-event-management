@@ -137,11 +137,9 @@ mysqli_close($conn);
         
         <a href="dashboard.php" class="dash">Dashboard</a>
         <a href="calendar.php" >Calendar</a>
-        <a href="events.php">Total Events</a>
-        <a href="ongoing.php">Ongoing Events</a>
-        <a href="upcoming.php">Upcoming Events</a>
-        <a href="finished.php">Finished Events</a>
-        <button class="end"> End Session</button>
+        <a href="guides.php" >Guides</a>
+        
+        <!--<a href="login.php">Logout</a>-->
         
     </div>
 
@@ -152,10 +150,10 @@ mysqli_close($conn);
         <h2 class="hello">Hard Rock Treks And Expedition</h2>
         <div id="calendar"></div>
         <div class="container">
-              <div class="t-events">Total Events: <?php echo count($events); ?></div>
-    <div class="o-events">Ongoing Events: <?php echo countOngoingEvents($events); ?></div>
-    <div class="u-events">Upcoming Events: <?php echo countUpcomingEvents($events); ?></div>
-    <div class="F-events">Finished Events: <?php echo countFinishedEvents($events)?></div>
+              <div class="t-events"> <a href="events.php" class="events_btn">Total Events: <?php echo count($events); ?></a></div>
+    <div class="o-events"><a href="ongoing.php" class="ongoing_btn">Ongoing Events: <?php echo countOngoingEvents($events); ?></a></div>
+    <div class="u-events"><a href="upcoming.php" class="upcoming_btn">Upcoming Events: <?php echo countUpcomingEvents($events); ?></a></div>
+    <div class="F-events"><a href="finished.php" class="finished_btn">Finished Events: <?php echo countFinishedEvents($events)?></a></div>
     </div>
     <div class="content-table">
 <h2>Upcoming Events</h2>

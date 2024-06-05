@@ -14,7 +14,7 @@ if (!$conn) {
 
 $upcomingEvents = array();
 $currentDate = date('Y-m-d H:i:s');
-$sql = "SELECT * FROM calendar WHERE start <='$currentDate' and end>='$currentDate'";
+$sql = "SELECT * FROM calendar WHERE start <='$currentDate' and end>='$currentDate' ORDER BY start ASC";
 $result = mysqli_query($conn, $sql);
 
 if ($result && mysqli_num_rows($result) > 0) {
@@ -46,10 +46,7 @@ mysqli_close($conn);
     <img src="hrt.png" alt="HRT Logo" class="logo">
         <a href="dashboard.php">Dashboard</a>
         <a href="calendar.php">Calendar</a>
-        <a href="events.php">Total Events</a>
-        <a href="" class="ongo">Ongoing Events</a>
-        <a href="upcoming.php">Upcoming Events</a>
-        <a href="finished.php">Finished Events</a>
+        
        
     </div>
 

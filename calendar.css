@@ -9,7 +9,7 @@
     z-index: 1;
     top: 0;
     left: 0;
-    background-color:rgb(188, 183, 206); /* Light gray background color */
+    background-color:black; /* Light gray background color */
     padding-top: 20px;
     border-right: 2px solid #a79e9e; 
     border-top: 2px solid #a79e9e; 
@@ -26,11 +26,12 @@
     padding: 10px 15px;
     text-decoration: none;
     display: block;
-    color: #333; /* Dark gray text color */
+    color: white; /* Dark gray text color */
 }
 
 .sidebar a:hover {
     background-color: #edf2f7;
+    color: black;
     border-radius: 20px; /* Lighter gray background color on hover */
 }
 
@@ -46,7 +47,7 @@
     height: 100vh; /* Set the height to 100% of the viewport height */
     overflow: auto;
      /* Add overflow to enable scrolling if necessary */
-    background-color: rgb(188, 183, 206);/* Add overflow to enable scrolling if necessary */
+    background-color: white;/* Add overflow to enable scrolling if necessary */
 }
 
 /* Center align the title */
@@ -139,10 +140,11 @@ margin-bottom: 5px; /* Add margin bottom to create space between label and input
 .guide-porter .porter {
 margin-left: 10px; /* Add margin left to create space between guide and porter input fields */
 }
+
 .logo{
     margin-top: 0px;
-    height: 50px;
-    margin-left: 60px;
+    height: 70px;
+    margin-left: 50px;
 }
 body{
     background-color: #9c9999;

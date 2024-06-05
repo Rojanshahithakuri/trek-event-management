@@ -8,7 +8,7 @@
     z-index: 1;
     top: 0;
     left: 0;
-    background-color:rgb(180, 198, 157); /* Light gray background color */
+    background-color:rgb(14, 5, 5); /* Light gray background color */
     padding-top: 20px;
     border-right: 2px solid #a79e9e; 
     border-top: 2px solid #a79e9e; 
@@ -17,24 +17,25 @@
     
 }
 .sidebar .dash{
-    background-color:rgb(152, 15, 152);
+    background-color:rgb(65, 113, 227);
     border-radius:20px;
 }
 .sidebar a {
     padding: 10px 15px;
     text-decoration: none;
     display: block;
-    color: #333; /* Dark gray text color */
+    color:white; /* Dark gray text color */
 }
 
 .sidebar a:hover {
     background-color: #edf2f7;
+    color: black;
     border-radius: 20px; /* Lighter gray background color on hover */
 }
 
 /* Main content styles */
 .content {
-    
+   
     border-radius: 20px;
     margin-left: 212px;
     margin-top: 10px;
@@ -45,7 +46,7 @@
     height: 100vh; /* Set the height to 100% of the viewport height */
     overflow: auto;
      /* Add overflow to enable scrolling if necessary */
-    background-color: rgb(180, 198, 157);
+    background-color: white;
 }
 
 /* Center align the title */
@@ -168,18 +169,18 @@ margin-left: 10px; /* Add margin left to create space between guide and porter i
 
 .logo{
     margin-top: 0px;
-    height: 50px;
-    margin-left: 60px;
+    height: 70px;
+    margin-left: 50px;
 }
 body{
     background-color: #9c9999;
 }
-.end{
+ .end{
     border: 1px solid blue;
     margin-left: 40px;
     margin-top: 290px;
    height: 40px;
-    border-radius: 20px;
+    border-radius: 40px;
    
 }
 .end:hover{
@@ -198,7 +199,7 @@ body{
         height: 100vh; /* Set the height to 100% of the viewport height */
         overflow: auto;
          /* Add overflow to enable scrolling if necessary */
-         background-color:rgb(180, 198, 157);
+         background-color:-moz-only-whitespace;
          border-right: 2px solid #a79e9e; 
     border-top: 2px solid #a79e9e; 
     border-bottom: 2px solid #a79e9e;
@@ -237,3 +238,27 @@ body{
                 font-size: 20px;
                 color:rgb(114, 109, 109);
             }
+
+.events_btn, .upcoming_btn, .ongoing_btn, .finished_btn{
+    color: white;
+}
+.events_btn:hover{
+    text-decoration: none;
+    color: #a79e9e;
+    
+}
+.upcoming_btn:hover{
+    text-decoration: none;
+    color: #a79e9e;
+    
+}
+.ongoing_btn:hover{
+    text-decoration: none;
+    color: #a79e9e;
+    
+}
+.finished_btn:hover{
+    text-decoration: none;
+    color: #a79e9e;
+    
+}

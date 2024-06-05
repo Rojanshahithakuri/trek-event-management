@@ -37,10 +37,7 @@ if(isset($_POST['submit'])){
     <img src="hrt.png" alt="HRT Logo" class="logo">
         <a href="dashboard.php">Dashboard</a>
         <a href="calendar.php">Calendar</a>
-        <a href="events.php" class="events">Total Events</a>
-        <a href="ongoing.php">Ongoing Events</a>
-        <a href="upcoming.php">Upcoming Events</a>
-        <a href="finished.php">Finished Events</a>
+      
         
     </div>
 
@@ -73,7 +70,7 @@ if(isset($_POST['submit'])){
                        die("Connection unsuccessful");
                    }
                    $n=1;
-                   $sql="SELECT * FROM calendar";
+                   $sql="SELECT * FROM calendar ORDER BY start ASC";
                    $result=mysqli_query($conn,$sql);
                    while($row= mysqli_fetch_array($result)){
                        $ID=$n++;
@@ -99,35 +96,7 @@ if(isset($_POST['submit'])){
         </div>
     </div>
 
-    <!-- Modal for adding event -->
-    <div id="myModal" class="modal">
-        <!-- Modal content -->
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h3>Event no: <?php echo $n; ?></h3>
-            <form id="eventForm" action="#" method="POST">
-                <label for="title">Destination:</label><br>
-                <input type="text" id="destination" name="destination"><br>
-                <label for="guests">Total Guests:</label><br>
-                <input type="number" name="guests"><br>
-                <div class="guide-porter">
-                    <div class="guide">
-                        <label for="guide">Guide:</label><br>
-                        <input type="number" name="guide" class="small-input"><br>
-                    </div>
-                    <div class="porter">
-                        <label for="porter">Porter:</label><br>
-                        <input type="number" name="porter" class="small-input"><br>
-                    </div>
-                </div>
-                <label for="start">Start Date:</label><br>
-                <input type="datetime-local" id="start" name="start"><br>
-                <label for="end">End Date:</label><br>
-                <input type="datetime-local" id="end" name="end"><br><br>
-                <input type="submit" name="submit" value="Save">
-            </form>
-        </div>
-    </div>
+    
 
     <script>
         function printTable() {

@@ -19,16 +19,25 @@ if(isset($_POST['submit'])){
     $start=$_POST["start"];
     $end=$_POST["end"];
 
-    $sql="INSERT INTO calendar(destination,guests,guide,porter,start,end)values('$destination','$guests','$guide','$porter','$start','$end')";
-    if (mysqli_query($conn, $sql)) {
-        echo '<script>alert("Event added successfully!"); window.location.href="calendar.php";</script>';
-    } else {
-        echo "Error adding record: " . mysqli_error($conn);
-    }
-
-    mysqli_close($conn);
-}
-
+       // Server-side validation
+       $today = date("Y-m-d H:i");
+       if ($start < $today) {
+           echo '<script>alert("Start date cannot be before today\'s date."); window.location.href="calendar.php";</script>';
+       } elseif ($end < $start) {
+           echo '<script>alert("End date cannot be before start date."); window.location.href="calendar.php";</script>';
+       } elseif ($guests < 1 || $guide < 0 || $porter < 0) {
+           echo '<script>alert("Guests, Guide, and Porter values cannot be negative."); window.location.href="calendar.php";</script>';
+       } else {
+           $sql = "INSERT INTO calendar (destination, guests, guide, porter, start, end) VALUES ('$destination', '$guests', '$guide', '$porter', '$start', '$end')";
+           if (mysqli_query($conn, $sql)) {
+               echo '<script>alert("Event added successfully!"); window.location.href="calendar.php";</script>';
+           } else {
+               echo "Error adding record: " . mysqli_error($conn);
+           }
+       }
+   
+       mysqli_close($conn);
+   }
 //fetch events from database;
 $host = 'localhost';
 $user = 'root';
@@ -85,16 +94,15 @@ color:white;
 
 </style>
 
+
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
     <img src="hrt.png" alt="HRT Logo" class="logo">
         <a href="dashboard.php">Dashboard</a>
         <a href="calendar.php" class="cal">Calendar</a>
-        <a href="events.php">Total Events</a>
-        <a href="ongoing.php">Ongoing Events</a>
-        <a href="upcoming.php">Upcoming Events</a>
-        <a href="finished.php">Finished Events</a>
+        <a href="guides.php">Guides</a>
+        
     </div>
 
     <!-- Main content -->
@@ -108,25 +116,25 @@ color:white;
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
             <h3>Event no: <?php echo count($events) + 1; ?></h3>
-            <form id="eventForm" action="#" method="POST">
+            <form id="eventForm" action="#" method="POST" onsubmit="return validateForm()">
                 <label for="title">Destination:</label><br>
-                <input type="text" id="destination" name="destination"><br>
+                <input type="text" id="destination" name="destination" required><br>
                 <label for="guests">Total Guests:</label><br>
-                <input type="number" name="guests"><br>
+                <input type="number" name="guests" min="0" required><br>
                 <div class="guide-porter">
                     <div class="guide">
                         <label for="guide">Guide:</label><br>
-                        <input type="number" name="guide" class="small-input"><br>
+                        <input type="number" name="guide" class="small-input" min="0" required><br>
                     </div>
                     <div class="porter">
                         <label for="porter">Porter:</label><br>
-                        <input type="number" name="porter" class="small-input"><br>
+                        <input type="number" name="porter" class="small-input" min="0" required><br>
                     </div>
                 </div>
                 <label for="start">Start Date:</label><br>
-                <input type="datetime-local" id="start" name="start"><br>
+                <input type="datetime-local" id="start" name="start" min="" required><br>
                 <label for="end">End Date:</label><br>
-                <input type="datetime-local" id="end" name="end"><br><br>
+                <input type="datetime-local" id="end" name="end" required><br><br>
                 <input type="submit" name="submit" value="Save">
             </form>
         </div>
@@ -138,7 +146,6 @@ color:white;
             <span class="close" onclick="closeModal2()">&times;</span>
             <h3>Event Details</h3>
             <table id="eventDetails" class="table">
-               
                 <tr>
                     <td><strong>ID:</strong></td>
                     <td id="ID"></td>
@@ -176,23 +183,23 @@ color:white;
             <form id="updateForm" style="display:none;" action="update_event.php" method="POST">
                 <input type="hidden" id="updateID" name="id">
                 <label for="title">Destination:</label><br>
-                <input type="text" id="updateDestination" name="destination"><br>
+                <input type="text" id="updateDestination" name="destination" required><br>
                 <label for="guests">Total Guests:</label><br>
-                <input type="number" id="updateGuests" name="guests"><br>
+                <input type="number" id="updateGuests" name="guests" min="0" required><br>
                 <div class="guide-porter">
                     <div class="guide">
                         <label for="guide">Guide:</label><br>
-                        <input type="number" id="updateGuide" name="guide" class="small-input"><br>
+                        <input type="number" id="updateGuide" name="guide" class="small-input" min="0" required><br>
                     </div>
                     <div class="porter">
                         <label for="porter">Porter:</label><br>
-                        <input type="number" id="updatePorter" name="porter" class="small-input"><br>
+                        <input type="number" id="updatePorter" name="porter" class="small-input" min="0" required><br>
                     </div>
                 </div>
                 <label for="start">Start Date:</label><br>
-                <input type="datetime-local" id="updateStart" name="start"><br>
+                <input type="datetime-local" id="updateStart" name="start" required><br>
                 <label for="end">End Date:</label><br>
-                <input type="datetime-local" id="updateEnd" name="end"><br><br>
+                <input type="datetime-local" id="updateEnd" name="end" required><br><br>
                 <input type="submit" value="Update">
             </form>
             <!-- Hidden delete form -->
@@ -211,6 +218,7 @@ color:white;
         // Open the modal when the Add Event button is clicked
         function openModal() {
             document.getElementById("myModal").style.display = "block";
+            setMinDate();
         }
 
         // Close the modal when the close button or outside the modal is clicked
@@ -226,6 +234,48 @@ color:white;
         // Close the modal for viewing event details
         function closeModal2() {
             document.getElementById("myModal2").style.display = "none";
+        }
+
+        function setMinDate() {
+            var today = new Date();
+            var day = ("0" + today.getDate()).slice(-2);
+            var month = ("0" + (today.getMonth() + 1)).slice(-2);
+            var year = today.getFullYear();
+            var hours = ("0" + today.getHours()).slice(-2);
+            var minutes = ("0" + today.getMinutes()).slice(-2);
+            var minDateTime = year + "-" + month + "-" + day + "T" + hours + ":" + minutes;
+            document.getElementById("start").min = minDateTime;
+            document.getElementById("end").min = minDateTime;
+        }
+
+        function validateForm() {
+            var start = new Date(document.getElementById("start").value);
+            var end = new Date(document.getElementById("end").value);
+            var today = new Date();
+            
+            if (start < today) {
+                alert("Start date cannot be before today's date.");
+                return false;
+            }
+
+            if (end < start) {
+                alert("End date cannot be before start date.");
+                return false;
+            }
+
+            var guests = document.getElementsByName("guests")[0].value;
+            var guide = document.getElementsByName("guide")[0].value;
+            var porter = document.getElementsByName("porter")[0].value;
+
+            if (guests < 1) {
+                alert("Guestsbe le value cannot be less than one ");
+                return false;
+            }
+            if ( guide < 0 || porter < 0) {
+                alert("Guests, Guide, and Porter values cannot be negative.");
+                return false;
+            }
+            return true;
         }
 
         $(document).ready(function(){
