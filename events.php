@@ -37,6 +37,7 @@ if(isset($_POST['submit'])){
     <img src="hrt.png" alt="HRT Logo" class="logo">
         <a href="dashboard.php">Dashboard</a>
         <a href="calendar.php">Calendar</a>
+        <a href="guides.php">Guides</a>
       
         
     </div>

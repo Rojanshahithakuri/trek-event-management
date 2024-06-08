@@ -15,6 +15,7 @@ if(isset($_POST['submit'])){
     $destination=$_POST["destination"];
     $guests=$_POST["guests"];
     $guide=$_POST["guide"];
+    $guide_name=$_POST["guide_name"];
     $porter=$_POST["porter"];
     $start=$_POST["start"];
     $end=$_POST["end"];
@@ -28,7 +29,8 @@ if(isset($_POST['submit'])){
        } elseif ($guests < 1 || $guide < 0 || $porter < 0) {
            echo '<script>alert("Guests, Guide, and Porter values cannot be negative."); window.location.href="calendar.php";</script>';
        } else {
-           $sql = "INSERT INTO calendar (destination, guests, guide, porter, start, end) VALUES ('$destination', '$guests', '$guide', '$porter', '$start', '$end')";
+        $sql = "INSERT INTO calendar (destination, guests, guide, guide_name, porter, start, end) VALUES ('$destination', '$guests', '$guide', '$guide_name', '$porter', '$start', '$end')";
+
            if (mysqli_query($conn, $sql)) {
                echo '<script>alert("Event added successfully!"); window.location.href="calendar.php";</script>';
            } else {
@@ -57,13 +59,34 @@ if (mysqli_num_rows($result) > 0) {
             'start' => $row['start'],
             'end' => $row['end'],
             'guests' => $row['guests'],
+            'guide_name' => $row['guide_name'],
             'guide' => $row['guide'],
             'porter' => $row['porter'],
 
         );
     }
 }
+$host = 'localhost';
+$user = 'root';
+$pass = '';
+$dbname = 'summer';
+$conn = mysqli_connect($host, $user, $pass, $dbname);
+
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+// Fetch guide names from the database
+$guides_query = "SELECT guide_name FROM guides";
+$guides_result = mysqli_query($conn, $guides_query);
+$guides = array();
+while ($row = mysqli_fetch_assoc($guides_result)) {
+    $guides[] = $row['guide_name'];
+}
 mysqli_close($conn);
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -122,6 +145,12 @@ color:white;
                 <label for="guests">Total Guests:</label><br>
                 <input type="number" name="guests" min="0" required><br>
                 <div class="guide-porter">
+                <label for="guide">Guide Name:</label><br>
+<select name="guide_name" required>
+    <?php foreach ($guides as $guide) { ?>
+        <option value="<?php echo $guide; ?>"><?php echo $guide; ?></option>
+    <?php } ?>
+</select><br>
                     <div class="guide">
                         <label for="guide">Guide:</label><br>
                         <input type="number" name="guide" class="small-input" min="0" required><br>
@@ -165,6 +194,10 @@ color:white;
                 <tr>
                     <td><strong>Total Guests:</strong></td>
                     <td id="guests2"></td>
+                </tr>
+                <tr>
+                    <td><strong>Guide Name:</strong></td>
+                    <td id="guide_name2"></td>
                 </tr>
                 <tr>
                     <td><strong>Total Guide:</strong></td>
@@ -268,7 +301,7 @@ color:white;
             var porter = document.getElementsByName("porter")[0].value;
 
             if (guests < 1) {
-                alert("Guestsbe le value cannot be less than one ");
+                alert("Guestbe le value cannot be less than one ");
                 return false;
             }
             if ( guide < 0 || porter < 0) {
@@ -308,6 +341,7 @@ color:white;
                     $('#end2').text(event.end.format('YYYY-MM-DD HH:mm'));
                     $('#guests2').text(event.guests);
                     $('#guide2').text(event.guide);
+                    $('#guide_name2').text(event.guide_name);
                     $('#porter2').text(event.porter);
                     openModal2();
                 }

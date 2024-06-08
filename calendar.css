@@ -82,7 +82,7 @@ a,h4 {
 .modal {
 display: none; /* Hide the modal by default */
 position: fixed;
-z-index: 1;
+z-index: 9999;
 left: 0;
 top: 0;
 width: 100%;
@@ -92,15 +92,13 @@ background-color: rgba(0,0,0,0.4); /* Black with opacity */
 }
 
 .modal-content {
-
-background-color: #ebe9ef;
-margin: 10% auto; /* Center the modal vertically and horizontally */
-padding: 50px;
-border-radius: 5px;
-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); /* Add box shadow */
-max-width: 400px; /* Set maximum width for the modal */
+   margin-left: 230px;
+   margin-right: 20px;
+   margin-top: 30px;
+   padding: 20px;
+   border-radius: 20px;
+   height: 100vh;
 }
-
 .close {
 color: #0a0212;
 float: right;
@@ -148,4 +146,20 @@ margin-left: 10px; /* Add margin left to create space between guide and porter i
 }
 body{
     background-color: #9c9999;
+}
+.destination{
+    border-radius: 10px;
+    height: 40px;
+    font-size: 20px;;
+}
+.guests_input{
+    border-radius: 10px;
+    height: 40px;
+    font-size: 20px;;
+}
+.guide_name{
+    width: 300px;
+    border-radius: 10px;
+    height: 40px;
+    font-size: 20px;;
 }
