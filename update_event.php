@@ -16,6 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST['id'];
     $destination = $_POST['destination'];
     $guests = $_POST['guests'];
+    $guide_name=$_POST['guide_name'];
     $guide = $_POST['guide'];
     $porter = $_POST['porter'];
     $start = $_POST['start'];
@@ -24,6 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "UPDATE calendar SET 
             destination='$destination', 
             guests='$guests', 
+            guide_name='$guide_name',
             guide='$guide', 
             porter='$porter', 
             start='$start', 

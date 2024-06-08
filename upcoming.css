@@ -184,13 +184,11 @@ width: 400px;
         text-align: left;
         padding: 8px;
     }
-    tr{
-        font-size: 16px;
-    }
+    
 
     th {
         background-color: #f2f2f2;
-        font-size: 20px;
+      
     }
 
     .logo{

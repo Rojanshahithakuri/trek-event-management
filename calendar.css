@@ -1,5 +1,5 @@
-  /* Sidebar styles */
-  .sidebar {
+/* Sidebar styles */
+.sidebar {
     margin-top: 10px;
     height: 715px;
     border-radius: 20px;
@@ -9,30 +9,24 @@
     z-index: 1;
     top: 0;
     left: 0;
-    background-color:black; /* Light gray background color */
+    background-color: black;
     padding-top: 20px;
-    border-right: 2px solid #a79e9e; 
-    border-top: 2px solid #a79e9e; 
-    border-bottom: 2px solid #a79e9e;
-    border-left: 2px solid #a79e9e;
-    
+    border: 2px solid #a79e9e;
 }
-.sidebar .cal{
-    background-color:rgb(65, 113, 227);
-    border-radius:20px;
+.sidebar .cal {
+    background-color: rgb(65, 113, 227);
+    border-radius: 20px;
 }
 .sidebar a {
-
     padding: 10px 15px;
     text-decoration: none;
     display: block;
-    color: white; /* Dark gray text color */
+    color: white;
 }
-
 .sidebar a:hover {
     background-color: #edf2f7;
     color: black;
-    border-radius: 20px; /* Lighter gray background color on hover */
+    border-radius: 20px;
 }
 
 /* Main content styles */
@@ -41,13 +35,11 @@
     margin-left: 212px;
     margin-top: 10px;
     margin-right: 5px;
-    margin-bottom: 10px;;
-     /* Adjusted margin-left to accommodate the sidebar */
-    padding: 20px; /* Added padding */
-    height: 100vh; /* Set the height to 100% of the viewport height */
+    margin-bottom: 10px;
+    padding: 20px;
+    height: 100vh;
     overflow: auto;
-     /* Add overflow to enable scrolling if necessary */
-    background-color: white;/* Add overflow to enable scrolling if necessary */
+    background-color: white;
 }
 
 /* Center align the title */
@@ -55,7 +47,7 @@ h2 {
     text-align: center;
 }
 
-a,h4 {
+a, h4 {
     font-size: 20px;
     color: black;
 }
@@ -80,86 +72,115 @@ a,h4 {
 
 /* Modal styles */
 .modal {
-display: none; /* Hide the modal by default */
-position: fixed;
-z-index: 9999;
-left: 0;
-top: 0;
-width: 100%;
-height: 100%;
-overflow: auto; /* Enable scrolling if modal content exceeds viewport */
-background-color: rgba(0,0,0,0.4); /* Black with opacity */
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .modal-content {
-   margin-left: 230px;
-   margin-right: 20px;
-   margin-top: 30px;
-   padding: 20px;
-   border-radius: 20px;
-   height: 100vh;
+    margin: auto;
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 20px;
+    width: 80%;
+    max-width: 600px;
+    background-color: white;
 }
+
 .close {
-color: #0a0212;
-float: right;
-font-size: 28px;
-font-weight: bold;
+    color: #0a0212;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
 }
 
 .close:hover,
 .close:focus {
-color: black;
-text-decoration: none;
-cursor: pointer;
-}
-.guide-porter {
-display: flex; /* Use flexbox to align items */
-justify-content: space-between; /* Space elements evenly */
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
 
+.guide-porter {
+    display: flex;
+    justify-content: space-between;
+}
 
 .guide,
 .porter {
-width: 45%; /* Set width for each input */
+    width: 45%;
 }
+
 .small-input {
-width: 70px; /* Set width for smaller inputs */
+    width: 70px;
 }
 
 .guide-porter .guide {
-margin-right: 10px; /* Add margin between guide and porter */
+    margin-right: 10px;
 }
 
-
-.guide,.porter {
-margin-bottom: 5px; /* Add margin bottom to create space between label and input field */
+.guide, .porter {
+    margin-bottom: 5px;
 }
 
 .guide-porter .porter {
-margin-left: 10px; /* Add margin left to create space between guide and porter input fields */
+    margin-left: 0px;
 }
 
-.logo{
+.logo {
     margin-top: 0px;
     height: 70px;
     margin-left: 50px;
 }
-body{
+
+body {
     background-color: #9c9999;
 }
-.destination{
-    border-radius: 10px;
+
+.destination, .guests_input, .guide_name, .small-input {
+    border-radius: 20px;
     height: 40px;
-    font-size: 20px;;
+    font-size: 20px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    width: calc(100% - 22px); /* Adjust width to match form layout */
 }
-.guests_input{
-    border-radius: 10px;
+
+input[type="text"], input[type="number"], input[type="datetime-local"], select {
+    width: 50%;
     height: 40px;
-    font-size: 20px;;
+    border-radius: 10px;
+    font-size: 20px;
+    
 }
-.guide_name{
-    width: 300px;
+
+input[type="submit"] {
     border-radius: 10px;
-    height: 40px;
-    font-size: 20px;;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 18px;
+    color: #333;
+}
+
+form div {
+    margin-bottom: 15px;
 }

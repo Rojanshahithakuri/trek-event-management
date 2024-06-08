@@ -26,9 +26,15 @@ if(isset($_POST['submit'])){
            echo '<script>alert("Start date cannot be before today\'s date."); window.location.href="calendar.php";</script>';
        } elseif ($end < $start) {
            echo '<script>alert("End date cannot be before start date."); window.location.href="calendar.php";</script>';
-       } elseif ($guests < 1 || $guide < 0 || $porter < 0) {
-           echo '<script>alert("Guests, Guide, and Porter values cannot be negative."); window.location.href="calendar.php";</script>';
-       } else {
+       } elseif ($guests < 1 ) {
+           echo '<script>alert("cannot continue due to no guests"); window.location.href="calendar.php";</script>';
+       } 
+       elseif ( $guide < 1 ) {
+        echo '<script>alert("There must be 1 guide"); window.location.href="calendar.php";</script>';
+    }elseif($porter<0){
+        echo '<script>alert("no negative value"); window.location.href="calendar.php";</script>';
+    }
+        else {
         $sql = "INSERT INTO calendar (destination, guests, guide, guide_name, porter, start, end) VALUES ('$destination', '$guests', '$guide', '$guide_name', '$porter', '$start', '$end')";
 
            if (mysqli_query($conn, $sql)) {
@@ -140,10 +146,10 @@ color:white;
             <span class="close" onclick="closeModal()">&times;</span>
             <h3>Event no: <?php echo count($events) + 1; ?></h3>
             <form id="eventForm" action="#" method="POST" onsubmit="return validateForm()">
-                <label for="title">Destination:</label><br>
+                <label for="title">Destination:</label>
                 <input type="text" id="destination" name="destination" required><br>
-                <label for="guests">Total Guests:</label><br>
-                <input type="number" name="guests" min="0" required><br>
+                <label for="guests">Total Guests:</label>
+                <input type="number" name="guests" min="0" required><br><br>
                 <div class="guide-porter">
                 <label for="guide">Guide Name:</label><br>
 <select name="guide_name" required>
@@ -152,17 +158,17 @@ color:white;
     <?php } ?>
 </select><br>
                     <div class="guide">
-                        <label for="guide">Guide:</label><br>
+                        <label for="guide">Total Guide:</label>
                         <input type="number" name="guide" class="small-input" min="0" required><br>
                     </div>
                     <div class="porter">
-                        <label for="porter">Porter:</label><br>
-                        <input type="number" name="porter" class="small-input" min="0" required><br>
+                        <label for="porter">Porter:</label>
+                        <input type="number" name="porter" class="small-input" min="0" required>
                     </div>
                 </div>
-                <label for="start">Start Date:</label><br>
+                <label for="start">Start Date:</label>
                 <input type="datetime-local" id="start" name="start" min="" required><br>
-                <label for="end">End Date:</label><br>
+                <label for="end">End Date:</label>
                 <input type="datetime-local" id="end" name="end" required><br><br>
                 <input type="submit" name="submit" value="Save">
             </form>
@@ -218,10 +224,16 @@ color:white;
                 <label for="title">Destination:</label><br>
                 <input type="text" id="updateDestination" name="destination" required><br>
                 <label for="guests">Total Guests:</label><br>
-                <input type="number" id="updateGuests" name="guests" min="0" required><br>
+                <input type="number" id="updateGuests" name="guests" min="1" required><br>
+                <label for="guide">Guide Name:</label><br>
+<select id="updateGuide_name"name="guide_name" required>
+    <?php foreach ($guides as $guide) { ?>
+        <option value="<?php echo $guide; ?>"><?php echo $guide; ?></option>
+    <?php } ?>
+</select><br>
                 <div class="guide-porter">
                     <div class="guide">
-                        <label for="guide">Guide:</label><br>
+                        <label for="guide">Total Guide:</label><br>
                         <input type="number" id="updateGuide" name="guide" class="small-input" min="0" required><br>
                     </div>
                     <div class="porter">
@@ -301,11 +313,15 @@ color:white;
             var porter = document.getElementsByName("porter")[0].value;
 
             if (guests < 1) {
-                alert("Guestbe le value cannot be less than one ");
+                alert("Guest value cannot be less than one ");
                 return false;
             }
-            if ( guide < 0 || porter < 0) {
-                alert("Guests, Guide, and Porter values cannot be negative.");
+            if ( guide < 1 ) {
+                alert("guide must be present");
+                return false;
+            }
+            if (porter<0) {
+                alert("no negative values.");
                 return false;
             }
             return true;
@@ -353,6 +369,7 @@ color:white;
                 $('#updateID').val($('#ID').text());
                 $('#updateDestination').val($('#destination2').text());
                 $('#updateGuests').val($('#guests2').text());
+                $('#updateGuide_name').val($('#guide_name2').text());
                 $('#updateGuide').val($('#guide2').text());
                 $('#updatePorter').val($('#porter2').text());
                 $('#updateStart').val($('#start2').text().replace(' ', 'T'));

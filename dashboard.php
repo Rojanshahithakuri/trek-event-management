@@ -164,6 +164,7 @@ mysqli_close($conn);
         <th>Start Date</th>
         <th>End Date</th>
         <th>Total Guests</th>
+        <th>Guide Name</th>
         <th>Guides</th>
         <th>Porter</th>
     </tr>
@@ -174,6 +175,7 @@ mysqli_close($conn);
             <td><?php echo $event['start']; ?></td>
             <td><?php echo $event['end']; ?></td>
             <td><?php echo $event['guests']; ?></td>
+            <td><?php echo $event['guide_name']; ?></td>
             <td><?php echo $event['guide']; ?></td>
             <td><?php echo $event['porter']; ?></td>
         </tr>

@@ -56,7 +56,8 @@ if(isset($_POST['submit'])){
                         <th>Start Date</th>
                         <th>End Date</th>
                         <th>Total Guests</th>
-                        <th>Guides</th>
+                        <th>Guide Name</th>
+                        <th>Total Guides</th>
                         <th>Porter</th>
                     </tr>
                 </thead>
@@ -77,6 +78,7 @@ if(isset($_POST['submit'])){
                        $ID=$n++;
                        $destination=$row["destination"];
                        $guests=$row["guests"];
+                       $guide_name=$row["guide_name"];
                        $guide=$row["guide"];
                        $porter=$row["porter"];
                        $start=$row["start"];
@@ -87,6 +89,7 @@ if(isset($_POST['submit'])){
                        <td>$start</td>
                        <td>$end</td>
                        <td>$guests</td>
+                       <td>$guide_name</td>
                        <td>$guide</td>
                        <td>$porter</td>
                        </tr>";
