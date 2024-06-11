@@ -1,4 +1,11 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
+
 if(isset($_POST['submit'])){
     // Code to add a new event
     // Establish database connection
@@ -84,11 +91,11 @@ if (!$conn) {
 }
 
 // Fetch guide names from the database
-$guides_query = "SELECT guide_name FROM guides";
+$guides_query = "SELECT name FROM users_guide";
 $guides_result = mysqli_query($conn, $guides_query);
 $guides = array();
 while ($row = mysqli_fetch_assoc($guides_result)) {
-    $guides[] = $row['guide_name'];
+    $guides[] = $row['name'];
 }
 mysqli_close($conn);
 
@@ -119,7 +126,9 @@ color:black;
 background-color: red !important;
 color:white;
 }
-
+.logout{
+margin-top:390px;
+}
 
 </style>
 
@@ -131,6 +140,7 @@ color:white;
         <a href="dashboard.php">Dashboard</a>
         <a href="calendar.php" class="cal">Calendar</a>
         <a href="guides.php">Guides</a>
+        <a href="logout.php" class="logout">Logout</a>
         
     </div>
 

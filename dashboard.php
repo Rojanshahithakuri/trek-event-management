@@ -126,7 +126,9 @@ mysqli_close($conn);
     <link rel="stylesheet" href="dashboard.css">
     <!-- Add your CSS and JavaScript links here -->
 <style>
-   
+   .logout{
+    margin-top:390px;
+   }
 </style>
 </head>
 <body>
@@ -138,6 +140,7 @@ mysqli_close($conn);
         <a href="dashboard.php" class="dash">Dashboard</a>
         <a href="calendar.php" >Calendar</a>
         <a href="guides.php" >Guides</a>
+        <a href="logout.php" class="logout">Logout</a>
         
         <!--<a href="login.php">Logout</a>-->
         

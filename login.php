@@ -14,12 +14,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
     }
-
     $sql = "SELECT * FROM users WHERE username='$username' AND password=PASSWORD('$password')";
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) == 1) {
+        $user = mysqli_fetch_assoc($result);
+
+        // Store user details in session
         $_SESSION['username'] = $username;
-        header("Location: dashboard.php");
+        $_SESSION['role'] = $user['role'];
+
+        // Fetch detailed info if the user is a guide
+        if ($user['role'] == 'user') {
+            $sql_guide = "SELECT * FROM users_guide WHERE username='$username'";
+            $result_guide = mysqli_query($conn, $sql_guide);
+            if (mysqli_num_rows($result_guide) == 1) {
+                $guide = mysqli_fetch_assoc($result_guide);
+                $_SESSION['name'] = $guide['name'];
+                $_SESSION['license_no'] = $guide['license_no'];
+                $_SESSION['phone_no'] = $guide['phone_no'];
+                $_SESSION['email'] = $guide['email'];
+                $_SESSION['photo'] = $guide['photo'];
+            }
+        }
+
+        // Redirect to appropriate dashboard
+        if ($user['role'] == 'admin') {
+            header("Location: dashboard.php");
+        } else {
+            header("Location: user_dashboard.php");
+        }
         exit();
     } else {
         $error = "Invalid username or password";
@@ -86,7 +109,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </style>
 </head>
 <body>
-    <button class="data-button" onclick="window.location.href='data.php'">Data</button>
     <div class="login-container">
         <h2>Login</h2>
         <?php if (isset($error)) { ?>
