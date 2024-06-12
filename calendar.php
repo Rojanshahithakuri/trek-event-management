@@ -97,6 +97,25 @@ $guides = array();
 while ($row = mysqli_fetch_assoc($guides_result)) {
     $guides[] = $row['name'];
 }
+
+$host = 'localhost';
+$user = 'root';
+$pass = '';
+$dbname = 'summer';
+$conn = mysqli_connect($host, $user, $pass, $dbname);
+
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+// Fetch guide names from the database
+$destination_query = "SELECT name FROM destinations";
+$destination_result = mysqli_query($conn, $destination_query);
+$destination = array();
+while ($row = mysqli_fetch_assoc($destination_result)) {
+    $destination[] = $row['name'];
+}
 mysqli_close($conn);
 
 
@@ -156,8 +175,15 @@ margin-top:390px;
             <span class="close" onclick="closeModal()">&times;</span>
             <h3>Event no: <?php echo count($events) + 1; ?></h3>
             <form id="eventForm" action="#" method="POST" onsubmit="return validateForm()">
-                <label for="title">Destination:</label>
-                <input type="text" id="destination" name="destination" required><br>
+
+                <label for="destination">Destination:</label>
+<select name="destination" required>
+    <?php foreach ($destination as $guide) { ?>
+        <option value="<?php echo $guide; ?>"><?php echo $guide; ?></option>
+    <?php } ?>
+</select>
+                   
+                
                 <label for="guests">Total Guests:</label>
                 <input type="number" name="guests" min="0" required><br><br>
                 <div class="guide-porter">
@@ -232,7 +258,11 @@ margin-top:390px;
             <form id="updateForm" style="display:none;" action="update_event.php" method="POST">
                 <input type="hidden" id="updateID" name="id">
                 <label for="title">Destination:</label><br>
-                <input type="text" id="updateDestination" name="destination" required><br>
+                <select id="updateDestination"name="destination" required>
+    <?php foreach ($destination as $guide) { ?>
+        <option value="<?php echo $guide; ?>"><?php echo $guide; ?></option>
+    <?php } ?>
+</select>
                 <label for="guests">Total Guests:</label><br>
                 <input type="number" id="updateGuests" name="guests" min="1" required><br>
                 <label for="guide">Guide Name:</label><br>

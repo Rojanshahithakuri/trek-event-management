@@ -140,6 +140,7 @@ mysqli_close($conn);
         <a href="dashboard.php" class="dash">Dashboard</a>
         <a href="calendar.php" >Calendar</a>
         <a href="guides.php" >Guides</a>
+        <a href="destination.php" >Destination</a>
         <a href="logout.php" class="logout">Logout</a>
         
         <!--<a href="login.php">Logout</a>-->
@@ -163,8 +164,8 @@ mysqli_close($conn);
 <table>
     <tr>
         <th>S.N</th>
-        <th>Destination</th>
-        <th>Start Date</th>
+        <th>Destination Name</th>
+        <th>Duration</th>
         <th>End Date</th>
         <th>Total Guests</th>
         <th>Guide Name</th>
