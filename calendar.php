@@ -146,7 +146,7 @@ background-color: red !important;
 color:white;
 }
 .logout{
-margin-top:390px;
+margin-top:310px;
 }
 
 </style>
@@ -156,9 +156,11 @@ margin-top:390px;
     <!-- Sidebar -->
     <div class="sidebar">
     <img src="hrt.png" alt="HRT Logo" class="logo">
-        <a href="dashboard.php">Dashboard</a>
+    <a href="dashboard.php" class="dash">Dashboard</a>
         <a href="calendar.php" class="cal">Calendar</a>
-        <a href="guides.php">Guides</a>
+        <a href="guides.php" >Guides</a>
+        <a href="destination.php" >Destination</a>
+        <a href="todo.php" >Todo</a>
         <a href="logout.php" class="logout">Logout</a>
         
     </div>

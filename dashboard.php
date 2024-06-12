@@ -110,7 +110,34 @@ if ($result && mysqli_num_rows($result) > 0) {
         $counter++;
     }
 }
+$host = 'localhost';
+$user = 'root';
+$pass = '';
+$dbname = 'summer';
 
+$conn = mysqli_connect($host, $user, $pass, $dbname);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+$sql = "SELECT * FROM calendar"; // Assume table name is 'events'
+$result = mysqli_query($conn, $sql);
+
+$todos = array();
+$currentDate = date('Y-m-d');
+$twoDaysLater = date('Y-m-d', strtotime('+2 days'));
+
+if (mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $eventStart = $row['start']; // Assume 'start' is the start date column in 'events' table
+        $eventEnd = $row['end']; // Assume 'end' is the end date column in 'events' table
+
+        // Check if the event is two days away
+        if ($eventStart == $twoDaysLater) {
+            $todos[] = $row;
+        }
+    }
+}
 // Close the database connection
 mysqli_close($conn);
 ?>
@@ -127,7 +154,7 @@ mysqli_close($conn);
     <!-- Add your CSS and JavaScript links here -->
 <style>
    .logout{
-    margin-top:390px;
+    margin-top:310px;
    }
 </style>
 </head>
@@ -141,6 +168,7 @@ mysqli_close($conn);
         <a href="calendar.php" >Calendar</a>
         <a href="guides.php" >Guides</a>
         <a href="destination.php" >Destination</a>
+        <a href="todo.php" >Todo</a>
         <a href="logout.php" class="logout">Logout</a>
         
         <!--<a href="login.php">Logout</a>-->
