@@ -43,7 +43,11 @@ if (mysqli_num_rows($result) > 0) {
         );
     }
 }
+// Database connection parameters
+
 mysqli_close($conn);
+
+
 
 // Function to count ongoing events
 function countOngoingEvents($events) {
@@ -84,6 +88,42 @@ function countFinishedEvents($events){
     }
     return $finishedEvents;
 }
+// Fetch events from the database
+$host = 'localhost';
+$user = 'root';
+$pass = '';
+$dbname = 'summer';
+
+$conn = new mysqli($host, $user, $pass, $dbname);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT * FROM calendar"; // Adjust the table and column names as needed
+$result = $conn->query($sql);
+
+$todos = array();
+$currentDate = date('Y-m-d');
+$twoDaysLater = date('Y-m-d', strtotime('+2 days'));
+
+echo "<!-- Current Date: $currentDate -->\n";
+echo "<!-- Two Days Later: $twoDaysLater -->\n";
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $eventStart = date('Y-m-d', strtotime($row['start'])); // Convert the event start date to Y-m-d format
+        echo "<!-- Event Start: $eventStart -->\n";
+        if ($eventStart == $twoDaysLater) {
+            $todos[] = $row;
+        }
+    }
+} else {
+    echo "No events found.";
+}
+
+
+
+
 $host = 'localhost';
 $user = 'root';
 $pass = '';
@@ -138,6 +178,7 @@ if (mysqli_num_rows($result) > 0) {
         }
     }
 }
+
 // Close the database connection
 mysqli_close($conn);
 ?>
@@ -248,6 +289,8 @@ mysqli_close($conn);
         </div>
     </div>
     <script>
+      
+        
         function openModal() {
             document.getElementById("myModal").style.display = "block";
         }
